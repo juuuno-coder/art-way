@@ -1,65 +1,58 @@
-import Image from "next/image";
+// src/app/page.tsx
 
-export default function Home() {
+// 1. Supabase 클라이언트와 데이터베이스 타입 정의를 가져옵니다.
+import { supabase } from "@/lib/supabase";
+
+// 2. 이 컴포넌트를 서버에서 실행하도록 지정합니다. (Next.js 핵심 기능!)
+// 서버에서 데이터를 가져와서 HTML을 미리 만들게 됩니다.
+export const dynamic = "force-dynamic";
+
+// 3. 페이지 컴포넌트 (비동기 함수로 정의)
+export default async function Home() {
+  // ==========================================================
+  // 4. 데이터베이스에서 데이터 가져오기 (Model 역할)
+  // .from('guide_posts')는 Supabase에서 만든 테이블 이름입니다.
+  const { data: guidePosts, error } = await supabase
+    .from("guide_posts")
+    .select("id, title, desc, tag") // 필요한 컬럼만 선택
+    .order("id", { ascending: true }); // ID 순서로 정렬
+
+  // 데이터베이스 연결에 문제가 생겼을 경우 (옵션)
+  if (error) {
+    console.error("Supabase Error:", error);
+    return (
+      <div className="p-10 text-center text-red-500">
+        데이터를 불러오는 중 오류가 발생했습니다. 콘솔을 확인하세요.
+      </div>
+    );
+  }
+  // ==========================================================
+
+  // 5. 화면 렌더링 (View 역할)
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <main className="min-h-screen bg-gray-50 flex flex-col items-center py-20">
+      <h1 className="text-4xl font-bold mb-4 text-gray-800">
+        Next.js 아키텍처 가이드 (Supabase Ver.)
+      </h1>
+      <p className="text-gray-500 mb-12">JS와 React로 만드는 웹의 구조</p>
+
+      <div className="grid gap-6 w-full max-w-2xl px-4">
+        {/* guidePosts 데이터가 없으면 빈 배열([])을 사용하여 오류 방지 */}
+        {(guidePosts || []).map((item) => (
+          <div
+            key={item.id}
+            className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="text-xl font-bold text-gray-800">{item.title}</h2>
+              <span className="bg-blue-100 text-blue-600 text-xs font-bold px-2 py-1 rounded">
+                {item.tag}
+              </span>
+            </div>
+            <p className="text-gray-600">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </main>
   );
 }
