@@ -37,9 +37,9 @@ export default async function ArchivePage() {
   const isAdmin = !!user; // 유저가 있으면 true (관리자)
 
   return (
-    <div className="max-w-screen-2xl mx-auto px-6 py-12 md:py-20 relative">
+    <div className="max-w-screen-2xl mx-auto px-6 mt-8 py-12 md:py-20 relative">
       <div className="flex justify-between items-end mb-12 border-b border-black pb-4">
-        <h2 className="font-serif text-3xl md:text-4xl">Exhibition Archive</h2>
+        <h2 className="font-serif text-2xl md:text-3xl">Exhibition Archive</h2>
 
         {/* 3. 관리자에게만 보이는 등록 버튼 */}
         {isAdmin && (

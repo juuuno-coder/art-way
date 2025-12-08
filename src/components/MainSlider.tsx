@@ -34,12 +34,12 @@ export default function MainSlider({ exhibitions }: { exhibitions: any[] }) {
         {/* 1. 포스터 이미지 (흰 박스 문제 해결) */}
         {/* 이미지가 있을 때만 렌더링하며, 크기를 명시적으로 잡아줍니다. */}
         {current.poster_url && (
-          <div className="relative w-[200px] h-[280px] md:w-[300px] md:h-[400px] mb-8 shadow-2xl">
+          <div className="relative w-[200px] h-[280px] md:w-[300px] md:h-[400px] mb-8">
             <Image
               src={current.poster_url}
               alt={current.title}
               fill
-              className="object-contain drop-shadow-lg" // cover 대신 contain 권장
+              className="object-contain drop-shadow-lg shadow-2xl" // cover 대신 contain 권장
               priority
             />
           </div>
