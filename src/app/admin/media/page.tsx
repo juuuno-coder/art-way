@@ -1,0 +1,81 @@
+import Link from "next/link";
+import { supabase } from "@/lib/supabase";
+import DeleteMediaButton from "@/components/admin/DeleteMediaButton";
+import { Button } from "@/components/ui/button";
+import { ExternalLink } from "lucide-react";
+
+export const dynamic = "force-dynamic";
+
+export default async function AdminMediaList() {
+  const { data: mediaList, error } = await supabase
+    .from("media_releases")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    return <div className="p-10 text-red-500">에러 발생: {error.message}</div>;
+  }
+
+  return (
+    <div className="max-w-screen-xl mx-auto py-20 px-6">
+      <div className="flex items-center justify-between mb-10">
+        <h1 className="text-3xl font-serif font-bold">언론보도 관리</h1>
+        <Link href="/admin/media/write">
+          <Button className="bg-black text-white hover:bg-gray-800">
+            + 새 보도자료 등록
+          </Button>
+        </Link>
+      </div>
+
+      <div className="bg-white border rounded-lg shadow-sm overflow-hidden">
+        <table className="w-full text-left border-collapse">
+          <thead className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
+            <tr>
+              <th className="p-4 border-b w-32">언론사</th>
+              <th className="p-4 border-b">제목</th>
+              <th className="p-4 border-b w-40">등록일</th>
+              <th className="p-4 border-b w-24 text-center">링크</th>
+              <th className="p-4 border-b w-20 text-center">삭제</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {mediaList?.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="p-10 text-center text-gray-400">
+                  등록된 보도자료가 없습니다.
+                </td>
+              </tr>
+            ) : (
+              mediaList?.map((item) => (
+                <tr key={item.id} className="hover:bg-gray-50 transition">
+                  <td className="p-4 text-sm font-bold text-blue-600">
+                    {item.press_name}
+                  </td>
+                  <td className="p-4 text-gray-900 font-medium">
+                    {item.title}
+                  </td>
+                  <td className="p-4 text-sm text-gray-500">
+                    {new Date(item.created_at).toLocaleDateString()}
+                  </td>
+                  <td className="p-4 text-center">
+                    <a
+                      href={item.link_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center text-gray-400 hover:text-blue-600"
+                    >
+                      <ExternalLink size={18} />
+                    </a>
+                  </td>
+                  <td className="p-4 text-center">
+                    <DeleteMediaButton id={item.id} />
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
