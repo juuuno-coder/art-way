@@ -1,4 +1,5 @@
 import { MapPin, Phone, Clock, Train, Car } from "lucide-react";
+import Image from "next/image";
 
 export default function ContactPage() {
   return (
@@ -29,8 +30,8 @@ export default function ContactPage() {
             <Clock className="text-blue-600 shrink-0" />
             <div>
               <p className="font-bold">운영 시간</p>
-              <p className="text-gray-600">화 ~ 일요일 10:00 - 18:00</p>
-              <p className="text-xs text-red-400">매주 월요일 휴관</p>
+              <p className="text-gray-600">수 ~ 일요일 10:00 - 18:00</p>
+              <p className="text-xs text-red-400">매주 월, 화 휴관</p>
             </div>
           </div>
 
@@ -67,12 +68,15 @@ export default function ContactPage() {
         </div>
       </div>
 
-      {/* 지도 영역 (이미지 혹은 카카오맵) */}
-      <div className="md:w-2/3 h-96 bg-gray-100 rounded-xl overflow-hidden relative">
-        {/* 실제 지도 API 연동 또는 제공된 약도 이미지 배치 */}
-        <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-          [약도 이미지 삽입: 오시는 길 이미지 참조]
-        </div>
+      {/* 지도 영역 */}
+      <div className="md:w-2/3 h-96 md:h-auto bg-gray-100 rounded-xl overflow-hidden relative">
+        <Image
+          src="/images/map.png"
+          alt="아트웨이 갤러리 오시는 길"
+          fill
+          className="object-contain"
+          priority
+        />
       </div>
     </div>
   );
