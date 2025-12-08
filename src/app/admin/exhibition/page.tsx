@@ -92,13 +92,11 @@ export default async function AdminExhibitionList() {
                                     </td>
                                     <td className="p-4 text-right">
                                         <div className="flex items-center justify-end gap-2">
-                                            {/* 수정 기능은 추후 구현 */}
-                                            <Link href={`/admin/exhibition/write?id=${item.id}`}>
+                                            <Link href={`/admin/exhibition/edit/${item.id}`}>
                                                 <Button
                                                     variant="outline"
                                                     size="sm"
                                                     className="text-gray-600 border-gray-300 hover:text-black"
-                                                    disabled // 수정 기능 구현 전까지 비활성화
                                                 >
                                                     수정
                                                 </Button>

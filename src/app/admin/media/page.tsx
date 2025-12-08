@@ -2,7 +2,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import DeleteMediaButton from "@/components/admin/DeleteMediaButton";
 import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Eye } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -31,17 +31,18 @@ export default async function AdminMediaList() {
         <table className="w-full text-left border-collapse">
           <thead className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
             <tr>
-              <th className="p-4 border-b w-32">언론사</th>
-              <th className="p-4 border-b">제목</th>
-              <th className="p-4 border-b w-40">등록일</th>
-              <th className="p-4 border-b w-24 text-center">링크</th>
-              <th className="p-4 border-b w-20 text-center">삭제</th>
+              <th className="p-4 text-left text-xs font-bold text-gray-500 uppercase">언론사</th>
+              <th className="p-4 text-left text-xs font-bold text-gray-500 uppercase">제목</th>
+              <th className="p-4 text-left text-xs font-bold text-gray-500 uppercase">등록일</th>
+              <th className="p-4 text-center text-xs font-bold text-gray-500 uppercase">상세보기</th>
+              <th className="p-4 text-center text-xs font-bold text-gray-500 uppercase">원문링크</th>
+              <th className="p-4 text-center text-xs font-bold text-gray-500 uppercase">삭제</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {mediaList?.length === 0 ? (
               <tr>
-                <td colSpan={5} className="p-10 text-center text-gray-400">
+                <td colSpan={6} className="p-10 text-center text-gray-400">
                   등록된 보도자료가 없습니다.
                 </td>
               </tr>
@@ -58,11 +59,21 @@ export default async function AdminMediaList() {
                     {new Date(item.created_at).toLocaleDateString()}
                   </td>
                   <td className="p-4 text-center">
+                    <Link
+                      href={`/media/${item.id}`}
+                      className="inline-flex items-center justify-center text-gray-400 hover:text-green-600"
+                      title="상세보기"
+                    >
+                      <Eye size={18} />
+                    </Link>
+                  </td>
+                  <td className="p-4 text-center">
                     <a
                       href={item.link_url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center text-gray-400 hover:text-blue-600"
+                      title="원문 링크"
                     >
                       <ExternalLink size={18} />
                     </a>
