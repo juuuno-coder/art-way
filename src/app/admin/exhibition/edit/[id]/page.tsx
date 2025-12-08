@@ -78,15 +78,21 @@ export default function EditExhibitionPage({ params }: { params: Promise<{ id: s
             // 기존 이미지가 있으면 Storage에서 삭제
             if (exhibition.poster_url) {
                 try {
-                    // URL에서 파일명 추출
-                    const oldFileName = exhibition.poster_url.split('/').pop();
-                    if (oldFileName) {
+                    // URL에서 파일명 추출 (전체 경로에서 마지막 부분만)
+                    const urlParts = exhibition.poster_url.split('/');
+                    const oldFileName = urlParts[urlParts.length - 1];
+
+                    // 쿼리 파라미터 제거 (예: ?token=xxx)
+                    const cleanFileName = oldFileName.split('?')[0];
+
+                    if (cleanFileName && cleanFileName !== 'null' && cleanFileName !== 'undefined') {
                         await supabase.storage
                             .from("posters")
-                            .remove([oldFileName]);
+                            .remove([cleanFileName]);
                     }
                 } catch (error) {
                     console.error("기존 이미지 삭제 실패:", error);
+                    // 삭제 실패해도 계속 진행
                 }
             }
 
@@ -99,7 +105,8 @@ export default function EditExhibitionPage({ params }: { params: Promise<{ id: s
                 .upload(fileName, imageFile);
 
             if (uploadError) {
-                alert("이미지 업로드 실패");
+                console.error("업로드 에러:", uploadError);
+                alert(`이미지 업로드 실패: ${uploadError.message}`);
                 setIsLoading(false);
                 return;
             }
