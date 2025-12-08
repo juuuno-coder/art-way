@@ -18,7 +18,11 @@ export async function createMedia(formData: FormData) {
 
   // 이미지가 있으면 Supabase Storage에 업로드
   if (imageFile && imageFile.size > 0) {
-    const fileName = `${Date.now()}_${imageFile.name}`;
+    // 파일명에서 확장자 추출
+    const fileExt = imageFile.name.split('.').pop();
+    // 안전한 파일명 생성 (한글 제거, 타임스탬프 사용)
+    const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from("media_images")
       .upload(fileName, imageFile);
