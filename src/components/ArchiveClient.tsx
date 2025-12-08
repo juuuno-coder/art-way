@@ -69,14 +69,14 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
             className="group cursor-pointer"
             onClick={() => setSelectedExhibition(item)}
           >
-            <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-4 shadow-sm border border-gray-100">
+            <div className="relative aspect-[3/4] overflow-hidden bg-white mb-4 shadow-sm border border-gray-100">
               {/* 포스터 이미지 */}
               {item.poster_url ? (
                 <Image
                   src={item.poster_url}
                   alt={item.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition duration-700 ease-out"
+                  className="object-contain group-hover:scale-100 transition duration-700 ease-out"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               ) : (
@@ -127,13 +127,13 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
 
             <div className="grid grid-cols-1 md:grid-cols-5">
               {/* 왼쪽: 포스터 이미지 - 2/5 */}
-              <div className="relative bg-gray-100 min-h-[500px] md:h-full md:col-span-2">
+              <div className="relative bg-white p-4 min-h-[500px] md:W-full md:col-span-2">
                 {selectedExhibition.poster_url && (
                   <Image
                     src={selectedExhibition.poster_url}
                     alt="Poster"
                     fill
-                    className="object-cover"
+                    className="object-contain"
                   />
                 )}
               </div>

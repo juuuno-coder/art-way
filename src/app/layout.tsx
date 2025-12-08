@@ -38,8 +38,8 @@ export default function RootLayout({
                 src="/logo.png"
                 alt="ARTWAY"
                 width={130}
-                height={50}
-                className="h-10 w-auto object-contain"
+                height={40}
+                className="h-8 w-auto object-contain"
                 priority
               />
             </Link>
