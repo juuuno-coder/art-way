@@ -39,7 +39,7 @@ export default function MainSlider({ exhibitions }: { exhibitions: any[] }) {
               src={current.poster_url}
               alt={current.title}
               fill
-              className="object-contain drop-shadow-lg shadow-2xl" // cover 대신 contain 권장
+              className="object-contain drop-shadow-2xl" // cover 대신 contain 권장
               priority
             />
           </div>

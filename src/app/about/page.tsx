@@ -45,7 +45,7 @@ export default function AboutPage() {
         </div>
         <div>
           <h3 className="font-serif text-lg font-bold mb-2">Hours</h3>
-          <p className="text-gray-500 text-sm">Open : 11:00 - 18:00</p>
+          <p className="text-gray-500 text-sm">Open : 11:00 - 17:30</p>
           <p className="text-gray-400 text-xs mt-1">* 매주 월, 화요일 휴관</p>
         </div>
       </div>

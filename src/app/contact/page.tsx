@@ -30,7 +30,7 @@ export default function ContactPage() {
             <Clock className="text-blue-600 shrink-0" />
             <div>
               <p className="font-bold">운영 시간</p>
-              <p className="text-gray-600">수 ~ 일요일 10:00 - 18:00</p>
+              <p className="text-gray-600">수 ~ 일요일 11:00 - 17:30</p>
               <p className="text-xs text-red-400">매주 월, 화 휴관</p>
             </div>
           </div>
