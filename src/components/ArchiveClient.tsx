@@ -86,9 +86,9 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
               <X size={24} />
             </button>
 
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              {/* 왼쪽: 포스터 이미지 */}
-              <div className="relative bg-gray-100 min-h-[500px] md:h-full">
+            <div className="grid grid-cols-1 md:grid-cols-5">
+              {/* 왼쪽: 포스터 이미지 - 2/5 */}
+              <div className="relative bg-gray-100 min-h-[500px] md:h-full md:col-span-2">
                 {selectedExhibition.poster_url && (
                   <Image
                     src={selectedExhibition.poster_url}
@@ -99,8 +99,8 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
                 )}
               </div>
 
-              {/* 오른쪽: 상세 내용 */}
-              <div className="p-8 md:p-12 space-y-8">
+              {/* 오른쪽: 상세 내용 - 3/5 */}
+              <div className="p-8 md:p-12 space-y-8 md:col-span-3">
                 <div>
                   <p className="text-xs font-bold text-blue-600 tracking-widest uppercase mb-2">
                     Exhibition

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import DeleteMediaButton from "@/components/admin/DeleteMediaButton";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Eye } from "lucide-react";
+import { ExternalLink, Eye, Edit } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -36,13 +36,14 @@ export default async function AdminMediaList() {
               <th className="p-4 text-left text-xs font-bold text-gray-500 uppercase">등록일</th>
               <th className="p-4 text-center text-xs font-bold text-gray-500 uppercase">상세보기</th>
               <th className="p-4 text-center text-xs font-bold text-gray-500 uppercase">원문링크</th>
+              <th className="p-4 text-center text-xs font-bold text-gray-500 uppercase">수정</th>
               <th className="p-4 text-center text-xs font-bold text-gray-500 uppercase">삭제</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
             {mediaList?.length === 0 ? (
               <tr>
-                <td colSpan={6} className="p-10 text-center text-gray-400">
+                <td colSpan={7} className="p-10 text-center text-gray-400">
                   등록된 보도자료가 없습니다.
                 </td>
               </tr>
@@ -77,6 +78,15 @@ export default async function AdminMediaList() {
                     >
                       <ExternalLink size={18} />
                     </a>
+                  </td>
+                  <td className="p-4 text-center">
+                    <Link
+                      href={`/admin/media/edit/${item.id}`}
+                      className="inline-flex items-center justify-center text-gray-400 hover:text-orange-600"
+                      title="수정"
+                    >
+                      <Edit size={18} />
+                    </Link>
                   </td>
                   <td className="p-4 text-center">
                     <DeleteMediaButton id={item.id} />
