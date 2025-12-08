@@ -83,3 +83,16 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* BlockNote 이미지 표시를 위한 스타일 */
+.prose img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem 0;
+  border-radius: 0.375rem;
+}
+
+.prose figure {
+  margin: 1rem 0;
+}

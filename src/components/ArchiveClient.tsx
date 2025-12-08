@@ -1,12 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image"; // 👈 여기가 중요합니다! (lucide-react 아님)
 import { X } from "lucide-react"; // 닫기 버튼용 아이콘
 
 export default function ArchiveClient({ initialData }: { initialData: any[] }) {
   // 모달 상태 관리
   const [selectedExhibition, setSelectedExhibition] = useState<any>(null);
+
+  // ESC 키로 모달 닫기
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && selectedExhibition) {
+        setSelectedExhibition(null);
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [selectedExhibition]);
 
   return (
     <>
@@ -64,7 +76,8 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
             onClick={() => setSelectedExhibition(null)}
           />
 
-          <div className="bg-white max-w-4xl w-full max-h-[90vh] overflow-y-auto relative shadow-2xl animate-fade-in-up">
+          {/* 모달 크기 확대: max-w-4xl → max-w-6xl, max-h-[90vh] → max-h-[95vh] */}
+          <div className="bg-white max-w-6xl w-full max-h-[95vh] overflow-y-auto relative shadow-2xl animate-fade-in-up">
             {/* 닫기 버튼 */}
             <button
               onClick={() => setSelectedExhibition(null)}
@@ -75,7 +88,7 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
 
             <div className="grid grid-cols-1 md:grid-cols-2">
               {/* 왼쪽: 포스터 이미지 */}
-              <div className="relative bg-gray-100 min-h-[400px] md:h-full">
+              <div className="relative bg-gray-100 min-h-[500px] md:h-full">
                 {selectedExhibition.poster_url && (
                   <Image
                     src={selectedExhibition.poster_url}
@@ -104,8 +117,12 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
                   </p>
                 </div>
 
+                {/* BlockNote 이미지 표시를 위한 스타일 개선 */}
                 <div
-                  className="text-sm text-gray-600 leading-loose text-justify max-h-[300px] overflow-y-auto pr-2 custom-scrollbar"
+                  className="text-sm text-gray-600 leading-loose text-justify max-h-[400px] overflow-y-auto pr-2 custom-scrollbar prose prose-sm max-w-none"
+                  style={{
+                    wordBreak: "break-word"
+                  }}
                   // HTML 태그가 포함된 에디터 내용을 안전하게 렌더링
                   dangerouslySetInnerHTML={{
                     __html: selectedExhibition.description || "",
