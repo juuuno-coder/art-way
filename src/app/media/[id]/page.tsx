@@ -11,11 +11,11 @@ import { ArrowLeft, ExternalLink, Calendar, Newspaper } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function MediaDetailPage({ params }: Props) {
-  const { id } = params;
+  const { id } = await params; // Next.js 16: params를 await로 unwrap
 
   // 1. DB에서 ID로 게시물 찾기
   const { data: post, error } = await supabase

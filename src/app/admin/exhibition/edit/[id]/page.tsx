@@ -1,7 +1,7 @@
 // src/app/admin/exhibition/edit/[id]/page.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import dynamicImport from "next/dynamic";
 import { Button } from "@/components/ui/button";
@@ -16,8 +16,9 @@ const Editor = dynamicImport(() => import("@/components/Editor"), {
 // 정적 생성 방지 (클라이언트 전용 컴포넌트)
 export const dynamic = "force-dynamic";
 
-export default function EditExhibitionPage({ params }: { params: { id: string } }) {
+export default function EditExhibitionPage({ params }: { params: Promise<{ id: string }> }) {
     const router = useRouter();
+    const { id } = use(params); // Next.js 16: params를 unwrap
     const [descHtml, setDescHtml] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [exhibition, setExhibition] = useState<any>(null);
@@ -28,7 +29,7 @@ export default function EditExhibitionPage({ params }: { params: { id: string } 
             const { data, error } = await supabase
                 .from("exhibitions")
                 .select("*")
-                .eq("id", params.id)
+                .eq("id", id)
                 .single();
 
             if (error) {
@@ -43,7 +44,7 @@ export default function EditExhibitionPage({ params }: { params: { id: string } 
         }
 
         loadExhibition();
-    }, [params.id, router]);
+    }, [id, router]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -87,7 +88,7 @@ export default function EditExhibitionPage({ params }: { params: { id: string } 
                 is_active: formData.get("is_active") === "on",
                 is_main_slider: formData.get("is_main_slider") === "on",
             })
-            .eq("id", params.id);
+            .eq("id", id);
 
         if (error) {
             alert("수정 실패");
