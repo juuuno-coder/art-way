@@ -46,6 +46,24 @@ export default function EditExhibitionPage({ params }: { params: Promise<{ id: s
         loadExhibition();
     }, [id, router]);
 
+    // 이미지 삭제 함수
+    const handleDeleteImage = async () => {
+        if (!confirm("이미지를 삭제하시겠습니까?")) return;
+
+        const { error } = await supabase
+            .from("exhibitions")
+            .update({ poster_url: null })
+            .eq("id", id);
+
+        if (error) {
+            alert("이미지 삭제 실패");
+            return;
+        }
+
+        setExhibition({ ...exhibition, poster_url: null });
+        alert("이미지가 삭제되었습니다.");
+    };
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
@@ -57,6 +75,22 @@ export default function EditExhibitionPage({ params }: { params: Promise<{ id: s
 
         // 새 이미지가 업로드된 경우
         if (imageFile && imageFile.size > 0) {
+            // 기존 이미지가 있으면 Storage에서 삭제
+            if (exhibition.poster_url) {
+                try {
+                    // URL에서 파일명 추출
+                    const oldFileName = exhibition.poster_url.split('/').pop();
+                    if (oldFileName) {
+                        await supabase.storage
+                            .from("posters")
+                            .remove([oldFileName]);
+                    }
+                } catch (error) {
+                    console.error("기존 이미지 삭제 실패:", error);
+                }
+            }
+
+            // 새 이미지 업로드
             const fileExt = imageFile.name.split('.').pop();
             const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
 
@@ -166,8 +200,20 @@ export default function EditExhibitionPage({ params }: { params: Promise<{ id: s
                     <label className="block text-sm font-bold mb-2">포스터 이미지</label>
                     {exhibition.poster_url && (
                         <div className="mb-4">
-                            <p className="text-sm text-gray-500 mb-2">현재 이미지:</p>
-                            <img src={exhibition.poster_url} alt="현재 포스터" className="w-32 h-auto rounded" />
+                            <div className="flex items-start gap-4">
+                                <div>
+                                    <p className="text-sm text-gray-500 mb-2">현재 이미지:</p>
+                                    <img src={exhibition.poster_url} alt="현재 포스터" className="w-32 h-auto rounded" />
+                                </div>
+                                <Button
+                                    type="button"
+                                    onClick={handleDeleteImage}
+                                    variant="outline"
+                                    className="text-red-600 border-red-300 hover:bg-red-50"
+                                >
+                                    이미지 삭제
+                                </Button>
+                            </div>
                         </div>
                     )}
                     <input
@@ -176,7 +222,7 @@ export default function EditExhibitionPage({ params }: { params: Promise<{ id: s
                         accept="image/*"
                         className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:border-black transition"
                     />
-                    <p className="text-xs text-gray-500 mt-1">새 이미지를 선택하지 않으면 기존 이미지가 유지됩니다.</p>
+                    <p className="text-xs text-gray-500 mt-1">새 이미지를 선택하면 기존 이미지가 자동으로 삭제됩니다.</p>
                 </div>
 
                 {/* 상세 설명 */}
