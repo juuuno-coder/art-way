@@ -9,8 +9,8 @@ export default function AboutPage() {
       {/* 1. 텍스트 영역 */}
       <div className="text-center mb-16 space-y-6 animate-fade-in-up">
         <h1 className="text-3xl md:text-4xl font-serif font-medium leading-relaxed text-gray-900">
-          &quot;오랜 시간 멈춰있던 공간이<br className="hidden md:block" />
-          예술의 숨결로 다시 깨어났습니다.&quot;
+          &quot;오랜 시간 멈춰있던 공간이 <br className="hidden md:block" />
+           예술의 숨결로 다시 깨어났습니다.&quot;
         </h1>
         
         <p className="text-gray-500 text-sm md:text-base leading-loose max-w-2xl mx-auto break-keep">
