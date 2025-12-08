@@ -29,7 +29,7 @@ export default async function MediaPage() {
             items.map((item) => (
               <li
                 key={item.id}
-                className="group border-b border-gray-100 py-6 hover:bg-gray-50 transition-colors"
+                className="group border-b border-gray-100 py-6 transition-colors"
               >
                 <Link
                   href={`/media/${item.id}`}

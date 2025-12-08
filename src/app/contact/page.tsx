@@ -69,12 +69,13 @@ export default function ContactPage() {
       </div>
 
       {/* 지도 영역 */}
-      <div className="md:w-2/3 h-96 md:h-auto bg-gray-100 rounded-xl overflow-hidden relative">
+      <div className="md:w-2/3 rounded-xl overflow-hidden relative">
         <Image
           src="/images/map.png"
           alt="아트웨이 갤러리 오시는 길"
-          fill
-          className="object-contain"
+          width={1200}
+          height={800}
+          className="w-full h-auto"
           priority
         />
       </div>
