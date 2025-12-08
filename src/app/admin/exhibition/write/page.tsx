@@ -3,8 +3,17 @@
 
 import { useState } from "react";
 import { createExhibition } from "@/actions/exhibitionActions";
-import Editor from "@/components/Editor";
+import dynamicImport from "next/dynamic";
 import { Button } from "@/components/ui/button"; // shadcn 버튼 적용
+
+// Editor를 동적으로 import (SSR 방지)
+const Editor = dynamicImport(() => import("@/components/Editor"), {
+  ssr: false,
+  loading: () => <div className="min-h-[200px] border rounded-md p-4 flex items-center justify-center text-gray-400">에디터 로딩 중...</div>
+});
+
+// 정적 생성 방지 (클라이언트 전용 컴포넌트)
+export const dynamic = "force-dynamic";
 
 export default function AdminExhibitionWrite() {
   const [descHtml, setDescHtml] = useState("");
