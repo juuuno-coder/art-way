@@ -37,15 +37,15 @@ export default function RootLayout({
               <Image
                 src="/logo.png"
                 alt="ARTWAY"
-                width={120}
-                height={40}
+                width={130}
+                height={50}
                 className="h-10 w-auto object-contain"
                 priority
               />
             </Link>
 
             {/* 네비게이션 */}
-            <nav className="hidden md:flex gap-10 text-[13px] font-medium tracking-widest text-gray-500">
+            <nav className="hidden md:flex gap-12 text-[16px] bg-white font-medium tracking-widest text-gray-500">
               <Link
                 href="/about"
                 className="hover:text-black transition-colors"

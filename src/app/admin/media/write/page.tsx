@@ -62,6 +62,15 @@ export default function AdminMediaWrite() {
                         />
                     </div>
                     <div>
+                        <label className="block text-sm font-bold mb-2">기사 작성일</label>
+                        <input
+                            name="published_date"
+                            type="date"
+                            className="w-full border-b border-gray-300 p-2 focus:outline-none focus:border-black transition"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">기사가 작성된 날짜를 선택하세요. 입력하지 않으면 등록일이 표시됩니다.</p>
+                    </div>
+                    <div>
                         <label className="block text-sm font-bold mb-2">대표 이미지</label>
                         <input
                             name="image"

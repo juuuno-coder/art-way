@@ -10,6 +10,7 @@ export async function createMedia(formData: FormData) {
   const press_name = formData.get("press_name") as string;
   const link_url = formData.get("link_url") as string;
   const content = formData.get("content") as string;
+  const published_date = formData.get("published_date") as string;
   const imageFile = formData.get("image") as File;
 
   if (!title || !link_url) return;
@@ -43,6 +44,7 @@ export async function createMedia(formData: FormData) {
     link_url,
     content,
     image_url,
+    published_date: published_date || null,
   });
 
   if (error) {

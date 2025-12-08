@@ -114,6 +114,7 @@ export default function EditMediaPage({ params }: { params: Promise<{ id: string
                 title: formData.get("title") as string,
                 link_url: formData.get("link_url") as string,
                 content: formData.get("content") as string,
+                published_date: formData.get("published_date") as string || null,
                 image_url,
             })
             .eq("id", id);
@@ -175,6 +176,17 @@ export default function EditMediaPage({ params }: { params: Promise<{ id: string
                         placeholder="https://..."
                         required
                     />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-bold mb-2">기사 작성일</label>
+                    <input
+                        name="published_date"
+                        type="date"
+                        defaultValue={media.published_date || ""}
+                        className="w-full border-b border-gray-300 p-2 focus:outline-none focus:border-black transition"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">기사가 작성된 날짜를 선택하세요. 입력하지 않으면 등록일이 표시됩니다.</p>
                 </div>
 
                 <div>

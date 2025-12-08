@@ -10,6 +10,7 @@ export default async function AdminMediaList() {
   const { data: mediaList, error } = await supabase
     .from("media_releases")
     .select("*")
+    .order("published_date", { ascending: false, nullsFirst: false })
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -57,7 +58,9 @@ export default async function AdminMediaList() {
                     {item.title}
                   </td>
                   <td className="p-4 text-sm text-gray-500">
-                    {new Date(item.created_at).toLocaleDateString()}
+                    {item.published_date
+                      ? new Date(item.published_date).toLocaleDateString('ko-KR')
+                      : new Date(item.created_at).toLocaleDateString('ko-KR')}
                   </td>
                   <td className="p-4 text-center">
                     <Link
