@@ -3,10 +3,29 @@
 import { useState, useEffect } from "react";
 import Image from "next/image"; // 👈 여기가 중요합니다! (lucide-react 아님)
 import { X } from "lucide-react"; // 닫기 버튼용 아이콘
+import { Button } from "@/components/ui/button";
+
+type SortType = "date" | "name";
 
 export default function ArchiveClient({ initialData }: { initialData: any[] }) {
   // 모달 상태 관리
   const [selectedExhibition, setSelectedExhibition] = useState<any>(null);
+  const [sortType, setSortType] = useState<SortType>("date");
+  const [exhibitions, setExhibitions] = useState(initialData);
+
+  // 정렬 함수
+  useEffect(() => {
+    const sorted = [...initialData].sort((a, b) => {
+      if (sortType === "date") {
+        // 최신순 (start_date 기준 내림차순)
+        return new Date(b.start_date).getTime() - new Date(a.start_date).getTime();
+      } else {
+        // 가나다순 (title 기준 오름차순)
+        return a.title.localeCompare(b.title, 'ko-KR');
+      }
+    });
+    setExhibitions(sorted);
+  }, [sortType, initialData]);
 
   // ESC 키로 모달 닫기
   useEffect(() => {
@@ -22,9 +41,29 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
 
   return (
     <>
+      {/* 정렬 버튼 */}
+      <div className="flex justify-end gap-2 mb-6">
+        <Button
+          onClick={() => setSortType("date")}
+          variant={sortType === "date" ? "default" : "outline"}
+          size="sm"
+          className={sortType === "date" ? "bg-black text-white" : ""}
+        >
+          최신순
+        </Button>
+        <Button
+          onClick={() => setSortType("name")}
+          variant={sortType === "name" ? "default" : "outline"}
+          size="sm"
+          className={sortType === "name" ? "bg-black text-white" : ""}
+        >
+          가나다순
+        </Button>
+      </div>
+
       {/* 1. 전시 리스트 그리드 */}
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
-        {initialData.map((item) => (
+        {exhibitions.map((item) => (
           <div
             key={item.id}
             className="group cursor-pointer"
