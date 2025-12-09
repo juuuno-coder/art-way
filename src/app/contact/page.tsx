@@ -3,11 +3,11 @@ import Image from "next/image";
 
 export default function ContactPage() {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-16 flex flex-col md:flex-row gap-12">
+    <div className="max-w-7xl mx-auto px-4 py-20 flex flex-col md:flex-row gap-12">
       {/* 텍스트 정보 */}
-      <div className="md:w-1/3 space-y-10">
+      <div className="md:w-1/3 space-y-10 ">
         <div>
-          <h2 className="text-3xl font-serif font-bold mb-6">Visit Us</h2>
+          <h2 className="text-3xl font-serif font-bold mb-6 ">Visit Us</h2>
           <p className="text-gray-600 leading-relaxed">
             아트웨이 갤러리는 부산 동구 좌천동 역사문화마을에 위치하고 있습니다.
             골목의 정취와 예술의 향기를 느껴보세요.
