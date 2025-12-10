@@ -20,6 +20,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "50mb", // 기본값 1MB -> 50MB로 대폭 상향
+    },
+  },
 };
 
 export default nextConfig;

@@ -21,9 +21,21 @@ export default function AdminExhibitionWrite() {
 
   // 로딩 상태 처리
   const handleSubmit = async (formData: FormData) => {
+    // 1. 파일 용량 사전 체크 (서버 제한 10MB 방지)
+    const file = formData.get("poster_image") as File;
+    if (file && file.size > 10 * 1024 * 1024) { // 10MB
+      alert("이미지 용량이 너무 큽니다. 10MB 이하의 파일을 선택해주세요.");
+      return;
+    }
+
     setIsLoading(true);
-    await createExhibition(formData);
-    // 성공 시 리다이렉트 되므로 setIsLoading(false) 불필요
+    try {
+      await createExhibition(formData);
+    } catch (error) {
+      console.error(error);
+      alert("업로드 중 오류가 발생했습니다. 다시 시도해주세요.");
+      setIsLoading(false); // 에러 시 로딩 해제
+    }
   };
 
   return (
@@ -108,7 +120,12 @@ export default function AdminExhibitionWrite() {
         <div>
           <label className="block text-sm font-bold mb-2">전시 상세 설명</label>
           <div className="min-h-[400px] border rounded-md p-1">
-            <Editor onChange={(html: string) => setDescHtml(html)} />
+            <Editor
+              onChange={(html: string) => {
+                // console.log("HTML Changed:", html); // 디버깅용
+                setDescHtml(html);
+              }}
+            />
           </div>
           <input type="hidden" name="description" value={descHtml} />
         </div>
