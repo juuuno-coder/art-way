@@ -34,6 +34,12 @@ export default function AdminLayout({
                             >
                                 언론보도 관리
                             </Link>
+                            <Link
+                                href="/admin/inquiry"
+                                className="hover:text-black transition-colors"
+                            >
+                                문의 관리
+                            </Link>
                             {/* 추가 메뉴 공간 */}
                         </nav>
                     </div>
