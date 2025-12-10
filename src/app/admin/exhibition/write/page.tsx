@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { createExhibition } from "@/actions/exhibitionActions";
 import dynamicImport from "next/dynamic";
 import { Button } from "@/components/ui/button"; // shadcn 버튼 적용
@@ -20,6 +21,8 @@ export default function AdminExhibitionWrite() {
   const [isLoading, setIsLoading] = useState(false);
 
   // 로딩 상태 처리
+  const router = useRouter(); // 라우터 사용
+
   const handleSubmit = async (formData: FormData) => {
     // 1. 파일 용량 사전 체크 (서버 제한 10MB 방지)
     const file = formData.get("poster_image") as File;
@@ -30,11 +33,19 @@ export default function AdminExhibitionWrite() {
 
     setIsLoading(true);
     try {
-      await createExhibition(formData);
+      const result = await createExhibition(formData);
+      
+      if (result.success) {
+        alert("전시가 성공적으로 등록되었습니다.");
+        router.push("/admin/exhibition");
+      } else {
+        alert(result.message || "전시 등록에 실패했습니다.");
+        setIsLoading(false);
+      }
     } catch (error) {
       console.error(error);
-      alert("업로드 중 오류가 발생했습니다. 다시 시도해주세요.");
-      setIsLoading(false); // 에러 시 로딩 해제
+      alert("알 수 없는 오류가 발생했습니다.");
+      setIsLoading(false);
     }
   };
 
