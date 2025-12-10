@@ -128,6 +128,7 @@ export default function EditExhibitionPage({ params }: { params: Promise<{ id: s
                 poster_url,
                 is_active: formData.get("is_active") === "on",
                 is_main_slider: formData.get("is_main_slider") === "on",
+                youtube_url: (formData.get("youtube_url") as string) || null, // 수정: 유튜브 URL 추가
             })
             .eq("id", id);
 
@@ -254,17 +255,30 @@ export default function EditExhibitionPage({ params }: { params: Promise<{ id: s
                             활성화 (체크하면 공개 페이지에 표시됩니다)
                         </label>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <input
-                            type="checkbox"
-                            name="is_main_slider"
-                            id="is_main_slider"
-                            defaultChecked={exhibition.is_main_slider}
-                            className="w-4 h-4"
-                        />
-                        <label htmlFor="is_main_slider" className="text-sm font-medium">
-                            메인 슬라이더에 표시
-                        </label>
+                    {/* 메인 슬라이더 옵션 + 유튜브 URL */}
+                    <div className="bg-gray-50 p-4 rounded-lg flex flex-col md:flex-row gap-4 md:items-center border border-gray-200">
+                        <div className="flex items-center gap-2 shrink-0">
+                            <input
+                                type="checkbox"
+                                name="is_main_slider"
+                                id="is_main_slider"
+                                defaultChecked={exhibition.is_main_slider}
+                                className="w-4 h-4 accent-black cursor-pointer"
+                            />
+                            <label htmlFor="is_main_slider" className="text-sm font-medium cursor-pointer">
+                                메인 슬라이더에 표시
+                            </label>
+                        </div>
+                        
+                        <div className="flex-1">
+                             <input
+                               name="youtube_url"
+                               type="text"
+                               defaultValue={exhibition.youtube_url || ""}
+                               placeholder="유튜브 영상 URL (메인 슬라이더 배경으로 사용시 입력)"
+                               className="w-full bg-transparent border-b border-gray-300 p-2 text-sm focus:outline-none focus:border-black"
+                             />
+                        </div>
                     </div>
                 </div>
 
