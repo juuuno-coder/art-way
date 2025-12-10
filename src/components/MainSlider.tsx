@@ -63,9 +63,9 @@ export default function MainSlider({ exhibitions, fallbackYoutubeUrl }: { exhibi
       {/* 📝 [컨텐츠 영역] */}
       <div className="relative z-10 flex flex-col items-center text-center max-w-4xl px-6 animate-fade-in">
         
-        {/* 1. 포스터 이미지 (Next/Image 대신 img 태그 사용으로 호환성 개선) */}
+        {/* 1. 포스터 이미지 (사이즈 축소: 88% 수준) */}
         {current.poster_url && (
-          <div className="relative w-[200px] h-[280px] md:w-[300px] md:h-[400px] mb-8">
+          <div className="relative w-[180px] h-[250px] md:w-[260px] md:h-[350px] mb-8">
             <img
               src={current.poster_url}
               alt={current.title}
@@ -74,17 +74,26 @@ export default function MainSlider({ exhibitions, fallbackYoutubeUrl }: { exhibi
           </div>
         )}
 
-        {/* 텍스트 정보 */}
+        {/* 작가명 */}
         <p className="text-sm md:text-base text-gray-200 font-medium tracking-widest mb-2">
           {current.artist}
         </p>
-        <h2 className="text-3xl md:text-5xl font-serif text-white font-bold mb-6 drop-shadow-md">
+        
+        {/* 제목 (사이즈 축소: H1 -> H2급) */}
+        <h2 className="text-2xl md:text-4xl font-serif text-white font-bold mb-3 drop-shadow-md">
           {current.title}
         </h2>
 
-        {/* 2. 설명글 */}
+        {/* 전시 기간 (추가됨) */}
+        <p className="text-xs md:text-sm text-gray-400 mb-6 font-light tracking-wider opacity-80">
+          {current.start_date && current.end_date 
+            ? `${current.start_date.replace(/-/g, '.')} ~ ${current.end_date.replace(/-/g, '.')}`
+            : ""}
+        </p>
+
+        {/* 2. 설명글 (2줄로 제한) */}
         <div 
-          className="text-gray-300 text-sm md:text-base leading-relaxed max-w-2xl line-clamp-3 mb-8 prose prose-invert prose-p:my-0"
+          className="text-gray-300 text-sm md:text-base leading-relaxed max-w-2xl line-clamp-2 mb-8 prose prose-invert prose-p:my-0"
           dangerouslySetInnerHTML={{ __html: current.description || "" }}
         />
 
