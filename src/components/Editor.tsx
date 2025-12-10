@@ -4,6 +4,7 @@
 import { BlockNoteEditor, PartialBlock } from "@blocknote/core";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
+import { useEffect } from "react";
 import "@blocknote/mantine/style.css"; // 스타일 불러오기
 import { supabase } from "@/lib/supabase"; // Supabase 클라이언트 임포트
 
@@ -12,10 +13,11 @@ interface EditorProps {
   initialContent?: string;
 }
 
-export default function Editor({ onChange }: EditorProps) {
+export default function Editor({ onChange, initialContent }: EditorProps) {
   // 에디터 생성
   const editor = useCreateBlockNote({
     uploadFile: async (file: File) => {
+      // ... (기존 코드와 동일)
       // 1. 파일명 생성 (충돌 방지)
       const fileExt = file.name.split(".").pop();
       const fileName = `${Date.now()}_${Math.random()
@@ -45,6 +47,19 @@ export default function Editor({ onChange }: EditorProps) {
       }
     },
   });
+
+  // 초기 내용 로드 (HTML -> Blocks)
+  useEffect(() => {
+    async function loadInitialContent() {
+      if (initialContent && editor) {
+        const blocks = await editor.tryParseHTMLToBlocks(initialContent);
+        editor.replaceBlocks(editor.document, blocks);
+      }
+    }
+    loadInitialContent();
+  }, [editor]); // initialContent는 의존성에서 제외 (무한루프 방지)
+
+  // ... (나머지 코드)
 
   // 내용이 바뀔 때마다 실행되는 함수
   const handleChange = async () => {

@@ -46,18 +46,8 @@ export default async function MediaDetailPage({ params }: Props) {
 
       <Card className="border-none shadow-none">
         <CardHeader className="p-0 mb-8 space-y-4">
-          <div className="flex items-center gap-3 text-sm text-gray-500">
-            <span className="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded-md text-gray-700 font-medium">
-              <Newspaper size={14} />
-              {post.press_name || "Press"}
-            </span>
-            <span className="flex items-center gap-1">
-              <Calendar size={14} />
-              {new Date(post.created_at).toLocaleDateString()}
-            </span>
-          </div>
 
-          <h1 className="text-3xl md:text-5xl font-serif font-bold leading-tight text-gray-900">
+          <h1 className="text-3xl md:text-4xl font-serif font-bold leading-tight text-gray-900">
             {post.title}
           </h1>
         </CardHeader>
@@ -65,16 +55,22 @@ export default async function MediaDetailPage({ params }: Props) {
         <Separator className="my-8" />
 
         <CardContent className="p-0">
-          {/* 대표 이미지 */}
-          {post.image_url && (
-            <div className="mb-8 rounded-lg overflow-hidden">
-              <img
-                src={post.image_url}
-                alt={post.title}
-                className="w-full h-auto object-cover"
-              />
-            </div>
-          )}
+          {/* 대표 이미지는 상세 페이지에서 제외 (사용자가 본문에 직접 삽입함) */}
+          
+          {/* 상단 메타 정보 (날짜 등) - 카드 헤더 아래로 이동 가능하지만 일단 디자인 유지 */}
+          <div className="flex items-center gap-3 text-sm text-gray-500 mb-8">
+            <span className="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded-md text-gray-700 font-medium">
+              <Newspaper size={14} />
+              {post.press_name || "Press"}
+            </span>
+            <span className="flex items-center gap-1">
+              <Calendar size={14} />
+              {/* 기사 게시일(published_date) 우선, 없으면 등록일(created_at) */}
+              {post.published_date 
+                ? new Date(post.published_date).toLocaleDateString()
+                : new Date(post.created_at).toLocaleDateString()}
+            </span>
+          </div>
 
           {/* 에디터로 작성한 HTML 내용 렌더링 */}
           {/* prose: Tailwind Typography 플러그인 스타일 (없어도 기본 스타일 적용됨) */}

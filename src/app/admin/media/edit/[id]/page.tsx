@@ -4,6 +4,13 @@ import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
+import dynamicImport from "next/dynamic";
+
+// Editor를 동적으로 import (SSR 방지)
+const Editor = dynamicImport(() => import("@/components/Editor"), {
+  ssr: false,
+  loading: () => <div className="min-h-[200px] border rounded-md p-4 flex items-center justify-center text-gray-400">에디터 로딩 중...</div>
+});
 
 // 정적 생성 방지
 export const dynamic = "force-dynamic";
@@ -14,6 +21,7 @@ export default function EditMediaPage({ params }: { params: Promise<{ id: string
     const [media, setMedia] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [contentHtml, setContentHtml] = useState("");
 
     useEffect(() => {
         async function loadMedia() {
@@ -30,6 +38,7 @@ export default function EditMediaPage({ params }: { params: Promise<{ id: string
             }
 
             setMedia(data);
+            setContentHtml(data.content || ""); // 초기 내용 설정
             setLoading(false);
         }
 
@@ -191,13 +200,14 @@ export default function EditMediaPage({ params }: { params: Promise<{ id: string
 
                 <div>
                     <label className="block text-sm font-bold mb-2">내용</label>
-                    <textarea
-                        name="content"
-                        defaultValue={media.content || ""}
-                        rows={6}
-                        className="w-full border border-gray-300 rounded p-2 focus:outline-none focus:border-black transition"
-                        placeholder="보도자료 내용 (선택사항)"
-                    />
+                    <div className="min-h-[400px] border rounded-md p-1">
+                        <Editor
+                            initialContent={media.content}
+                            onChange={(html: string) => setContentHtml(html)}
+                        />
+                    </div>
+                    {/* 텍스트 에디터 내용을 폼 전송에 포함시키기 위한 hidden input */}
+                    <input type="hidden" name="content" value={contentHtml} />
                 </div>
 
                 <div>

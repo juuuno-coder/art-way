@@ -28,18 +28,46 @@ export default async function MediaPage() {
           {items.length > 0 ? (
             items.map((item) => (
               <li key={item.id} className="group border-b border-gray-100 py-6 transition-colors">
-                <Link href={`/media/${item.id}`} className="flex flex-col md:flex-row md:items-center justify-between gap-2">
-                  <div>
-                    <span className="text-xs text-blue-600 font-bold mb-1 block">
-                      {item.press_name || "NEWS"}
-                    </span>
-                    <h3 className="text-lg md:text-xl font-medium group-hover:underline decoration-1 underline-offset-4">
-                      {item.title}
-                    </h3>
-                  </div>
-                  <div className="flex items-center gap-2 text-gray-400 text-sm shrink-0">
-                    <span>{new Date(item.created_at).toLocaleDateString()}</span>
-                    <ExternalLink size={14} />
+                <Link href={`/media/${item.id}`} className="flex flex-col md:flex-row gap-6 group">
+                  {/* 1. 썸네일 이미지 (왼쪽) */}
+                  {item.image_url && (
+                    <div className="w-full md:w-48 aspect-video shrink-0 overflow-hidden rounded-md bg-gray-100">
+                      <img 
+                        src={item.image_url} 
+                        alt={item.title} 
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                  )}
+
+                  {/* 2. 텍스트 정보 (오른쪽) */}
+                  <div className="flex-1 flex flex-col justify-between py-1">
+                    <div>
+                      <div className="flex justify-between items-start mb-2">
+                        <span className="text-xs text-blue-600 font-bold">
+                          {item.press_name || "NEWS"}
+                        </span>
+                        {/* 날짜 표시: 기사게시일 우선 */}
+                        <div className="flex items-center gap-1 text-gray-400 text-sm shrink-0">
+                          <span>
+                            {item.published_date 
+                              ? new Date(item.published_date).toLocaleDateString()
+                              : new Date(item.created_at).toLocaleDateString()}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <h3 className="text-lg md:text-xl font-medium leading-snug group-hover:underline decoration-1 underline-offset-4 mb-3">
+                        {item.title}
+                      </h3>
+                      
+                      {/* 간단한 미리보기 텍스트 (옵션) */}
+                      {/* <p className="text-gray-500 text-sm line-clamp-2">...</p> */}
+                    </div>
+                    
+                    <div className="flex items-center text-xs text-gray-400 mt-2">
+                      <ExternalLink size={12} className="mr-1" /> 자세히 보기
+                    </div>
                   </div>
                 </Link>
               </li>
