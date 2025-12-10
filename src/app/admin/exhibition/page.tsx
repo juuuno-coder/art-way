@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import DeleteExhibitionButton from "@/components/admin/DeleteExhibitionButton";
 import { Button } from "@/components/ui/button";
@@ -52,11 +51,10 @@ export default async function AdminExhibitionList() {
                                     <td className="p-4 w-24">
                                         <div className="relative w-16 h-20 bg-gray-100 rounded overflow-hidden">
                                             {item.poster_url ? (
-                                                <Image
+                                                <img
                                                     src={item.poster_url}
                                                     alt={item.title}
-                                                    fill
-                                                    className="object-cover"
+                                                    className="w-full h-full object-cover"
                                                 />
                                             ) : (
                                                 <div className="flex items-center justify-center h-full text-xs text-gray-400">
