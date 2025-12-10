@@ -112,8 +112,8 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
             onClick={() => setSelectedExhibition(null)}
           />
 
-          {/* 모달 크기 확대: max-w-4xl → max-w-6xl, max-h-[90vh] → max-h-[95vh] */}
-          <div className="bg-white max-w-6xl w-full max-h-[95vh] overflow-y-auto relative shadow-2xl animate-fade-in-up">
+          {/* 모달 크기 확대: 전체 화면의 88% */}
+          <div className="bg-white w-[90%] md:w-[88%] max-h-[95vh] overflow-y-auto relative shadow-2xl animate-fade-in-up">
             {/* 닫기 버튼 */}
             <button
               onClick={() => setSelectedExhibition(null)}
@@ -122,11 +122,20 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
               <X size={24} />
             </button>
 
-            <div className="flex flex-col md:flex-row gap-8 p-8 md:p-12">
-              {/* (기존 포스터 영역 제거함 - 사용자가 요청한 대로 상세에서는 제외) */}
-              
-              {/* 상세 내용 (전체 너비 사용) */}
-              <div className="flex-1 space-y-8">
+            <div className="flex flex-col md:flex-row min-h-[600px]">
+              {/* 1. 왼쪽: 포스터 이미지 (30%) */}
+              <div className="w-full md:w-[30%] bg-gray-50 p-8 flex items-start justify-center border-b md:border-b-0 md:border-r border-gray-100">
+                {selectedExhibition.poster_url && (
+                  <img
+                    src={selectedExhibition.poster_url}
+                    alt={selectedExhibition.title}
+                    className="w-full h-auto object-contain shadow-sm"
+                  />
+                )}
+              </div>
+
+              {/* 2. 오른쪽: 상세 내용 (70%) */}
+              <div className="w-full md:w-[70%] p-8 md:p-12 space-y-8 bg-white">
                 <div>
                   <p className="text-xs font-bold text-blue-600 tracking-widest uppercase mb-2">
                     Exhibition
@@ -145,7 +154,7 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
 
                 {/* BlockNote 이미지 표시를 위한 스타일 개선 */}
                 <div
-                  className="text-sm text-gray-600 leading-loose text-justify max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar prose prose-sm max-w-none"
+                  className="text-sm text-gray-600 leading-loose text-justify min-h-[200px] prose prose-sm max-w-none"
                   style={{
                     wordBreak: "break-word"
                   }}
@@ -155,7 +164,7 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
                   }}
                 />
 
-                <div className="flex justify-end">
+                <div className="flex justify-end pt-8">
                    <button
                     onClick={() => setSelectedExhibition(null)}
                     className="border border-black px-12 py-3 text-xs tracking-widest hover:bg-black hover:text-white transition"
