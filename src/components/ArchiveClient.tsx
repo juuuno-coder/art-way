@@ -90,13 +90,13 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
               </div>
             </div>
 
-            <h3 className="text-base font-serif font-bold truncate text-gray-900 group-hover:text-blue-600 transition">
+            <h3 className="text-xl font-serif font-bold truncate text-gray-900 group-hover:text-blue-600 transition">
               {item.title}
             </h3>
-            <p className="text-xs text-gray-500 mt-1 uppercase tracking-wider">
+            <p className="text-sm text-gray-500 mt-1 uppercase tracking-wider">
               {item.artist || item.subtitle}
             </p>
-            <p className="text-[10px] text-gray-400 mt-1">
+            <p className="text-xs text-gray-400 mt-1">
               {item.start_date} ~ {item.end_date}
             </p>
           </div>

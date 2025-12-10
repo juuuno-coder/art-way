@@ -60,16 +60,16 @@ export default function MainSlider({ exhibitions, fallbackYoutubeUrl }: { exhibi
         <ChevronRight size={40} strokeWidth={1} />
       </button>
 
-      {/* 📝 [컨텐츠 영역] */}
-      <div className="relative z-10 flex flex-col items-center text-center max-w-4xl px-6 animate-fade-in">
+      {/* 📝 [컨텐츠 영역] 위치를 아래로 내림 (translate-y) */}
+      <div className="relative z-10 flex flex-col items-center text-center max-w-4xl px-6 animate-fade-in translate-y-12 md:translate-y-24">
         
         {/* 1. 포스터 이미지 (사이즈 축소: 88% 수준) */}
         {current.poster_url && (
-          <div className="relative w-[180px] h-[250px] md:w-[260px] md:h-[350px] mb-8">
+          <div className="relative w-[180px] h-[250px] md:w-[260px] md:h-[350px] mb-3">
             <img
               src={current.poster_url}
               alt={current.title}
-              className="w-full h-full object-contain drop-shadow-2xl"
+              className="w-full h-full object-contain object-bottom drop-shadow-2xl"
             />
           </div>
         )}
