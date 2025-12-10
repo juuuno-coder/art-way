@@ -16,7 +16,7 @@ export default async function MediaPage() {
   const items = pressReleases || [];
 
   return (
-    <div className="max-w-screen-xl mx-auto px-6 mt-8 py-12 space-y-24">
+    <div className="max-w-screen-2xl mx-auto px-6 mt-8 py-12 md:py-20 space-y-24">
       
       {/* 섹션 1: Press Release */}
       <section>

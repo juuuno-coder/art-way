@@ -47,8 +47,8 @@ export default async function ArchivePage() {
             asChild
             className="bg-black text-white hover:bg-gray-800 gap-2"
           >
-            <Link href="/admin/exhibition/write">
-              <Plus size={16} /> 전시 등록
+            <Link href="/admin/exhibition">
+              <Plus size={16} /> 전시 등록 및 관리
             </Link>
           </Button>
         )}
