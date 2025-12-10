@@ -1,13 +1,10 @@
-// src/app/archive/page.tsx
-import { supabase } from "@/lib/supabase"; // 데이터 조회용 (공용)
-import { createServerClient } from "@supabase/ssr"; // 인증 체크용 (서버)
-import { cookies } from "next/headers";
-import Link from "next/link";
-import { Plus } from "lucide-react";
-import ArchiveClient from "@/components/ArchiveClient";
-import { Button } from "@/components/ui/button";
 
-export const dynamic = "force-dynamic";
+import { supabase } from "@/lib/supabase";
+import ArchiveClient from "@/components/ArchiveClient";
+import { AdminExhibitionButton } from "@/components/AdminButtons";
+
+// 🚀 ISR 적용: 60초마다 캐시 갱신 (서버 부하 감소 & 속도 향상)
+export const revalidate = 60;
 
 export default async function ArchivePage() {
   // 1. 전시 데이터 가져오기 (DB)
@@ -16,42 +13,15 @@ export default async function ArchivePage() {
     .select("*")
     .order("start_date", { ascending: false });
 
-  // 2. 관리자 로그인 여부 확인 (서버 사이드)
-  const cookieStore = await cookies();
-  const supabaseServer = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll();
-        },
-        setAll() {}, // 읽기 전용이라 setAll은 비워둠
-      },
-    }
-  );
-
-  const {
-    data: { user },
-  } = await supabaseServer.auth.getUser();
-  const isAdmin = !!user; // 유저가 있으면 true (관리자)
+  // 2. 관리자 버튼은 클라이언트 컴포넌트에서 처리 (페이지 캐싱을 위해)
 
   return (
     <div className="max-w-screen-2xl mx-auto px-6 mt-8 py-12 md:py-20 relative">
       <div className="flex justify-between items-end mb-12 border-b border-black pb-4">
         <h2 className="font-serif text-2xl md:text-3xl">Exhibition Archive</h2>
 
-        {/* 3. 관리자에게만 보이는 등록 버튼 */}
-        {isAdmin && (
-          <Button
-            asChild
-            className="bg-black text-white hover:bg-gray-800 gap-2"
-          >
-            <Link href="/admin/exhibition">
-              <Plus size={16} /> 전시 등록 및 관리
-            </Link>
-          </Button>
-        )}
+        {/* 3. 관리자에게만 보이는 등록 버튼 (클라이언트 사이드 체크) */}
+        <AdminExhibitionButton />
       </div>
 
       {/* 4. 기존 모달 스타일 유지 */}
