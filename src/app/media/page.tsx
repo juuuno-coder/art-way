@@ -1,8 +1,11 @@
 // src/app/media/page.tsx
 
 import { supabase } from "@/lib/supabase";
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import SocialConnect from "@/components/SocialConnect"; // 👈 여기 바뀜!
 
 export const dynamic = "force-dynamic";
@@ -15,6 +18,26 @@ export default async function MediaPage() {
 
   const items = pressReleases || [];
 
+  // 2. 관리자 로그인 여부 확인 (서버 사이드)
+  const cookieStore = await cookies();
+  const supabaseServer = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll() {}, // 읽기에만 사용
+      },
+    }
+  );
+
+  const {
+    data: { user },
+  } = await supabaseServer.auth.getUser();
+  const isAdmin = !!user;
+
   return (
     <div className="max-w-screen-2xl mx-auto px-6 mt-8 py-12 md:py-20 space-y-24">
       
@@ -22,6 +45,17 @@ export default async function MediaPage() {
       <section>
         <div className="flex justify-between items-end mb-8 border-b border-black pb-4">
           <h2 className="text-3xl font-serif">Press Release</h2>
+          {/* 관리자에게만 보이는 등록 버튼 */}
+          {isAdmin && (
+            <Button
+              asChild
+              className="bg-black text-white hover:bg-gray-800 gap-2"
+            >
+              <Link href="/admin/media">
+                <Plus size={16} /> 보도자료 등록 및 관리
+              </Link>
+            </Button>
+          )}
         </div>
 
         <ul className="space-y-0">

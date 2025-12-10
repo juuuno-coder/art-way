@@ -36,23 +36,6 @@ export default async function HomePage() {
   // 3. 데이터 가공
   const slides = exhibitions || [];
 
-  // 유튜브 ID 추출 함수 (URL에서 ID만 쏙 빼냄)
-  const getYoutubeId = (url: string | null | undefined) => {
-    if (!url) return null;
-    // 다양한 유튜브 URL 패턴 대응 정규식
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
-  };
-
-  // 우선순위: 1. 최신 메인 전시의 youtube_url -> 2. 기존 main_banner 설정
-  const latestExhibitionYoutube = slides.length > 0 ? slides[0].youtube_url : null;
-  const finalYoutubeUrl = latestExhibitionYoutube || bannerData?.youtube_url;
-
-  const youtubeId = getYoutubeId(finalYoutubeUrl);
-  console.log("🎥 추출된 유튜브 ID:", youtubeId);
-
-
   return (
     // relative: 자식 요소들의 기준점
     // h-screen: 화면 꽉 채움
@@ -61,46 +44,15 @@ export default async function HomePage() {
     <div className="relative w-full h-screen overflow-hidden bg-black">
       
       {/* =========================================
-          📺 [1] 배경 레이어 (유튜브 영상)
-      ========================================= */}
-      {youtubeId ? (
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          {/* iframe wrapper: 화면 비율 유지 및 확대를 위해 필요 */}
-          <div className="absolute inset-0 w-full h-full overflow-hidden">
-             <iframe
-              className="absolute top-1/2 left-1/2 w-[177.77vh] h-[56.25vw] min-h-full min-w-full -translate-x-1/2 -translate-y-1/2 scale-[1.3]"
-              // 유튜브 파라미터 설명:
-              // autoplay=1: 자동재생
-              // mute=1: 소리끔 (브라우저 정책상 필수)
-              // controls=0: 재생바 숨김
-              // loop=1 & playlist={ID}: 무한 반복
-              // playsinline=1: 모바일에서 전체화면 안 되게
-              src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${youtubeId}&playsinline=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&origin=http://localhost:3000`}
-              allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
-              style={{ pointerEvents: "none" }} // 클릭 방지
-            />
-          </div>
-          
-          {/* 영상 위를 덮는 반투명 검은막 (글씨 잘 보이게) */}
-          <div className="absolute inset-0 bg-black/40" />
-        </div>
-      ) : (
-        // 영상 데이터가 없을 때 보여줄 기본 배경
-        <div className="absolute inset-0 bg-gray-900 z-0 flex items-center justify-center">
-           {/* 배경 이미지가 있다면 여기에 <Image fill ... /> 사용 */}
-           <span className="text-gray-800 text-9xl font-bold opacity-20">ARTWAY</span>
-        </div>
-      )}
-
-
-      {/* =========================================
-          🖼️ [2] 컨텐츠 레이어 (슬라이더)
-          헤더(fixed)가 위에 있으므로 pt-16 등으로 여백을 줄 필요가 있을 수 있으나
-          MainSlider 내부 디자인에 따라 flex로 중앙 정렬함
+          🖼️ [컨텐츠 레이어] (슬라이더 + 배경)
+          MainSlider 내부에서 배경 영상과 컨텐츠를 모두 처리합니다.
       ========================================= */}
       <div className="relative z-10 h-full w-full pt-16">
         {slides.length > 0 ? (
-          <MainSlider exhibitions={slides} />
+          <MainSlider 
+            exhibitions={slides} 
+            fallbackYoutubeUrl={bannerData?.youtube_url}
+          />
         ) : (
           <div className="h-full flex flex-col items-center justify-center text-white/40 gap-4">
             <p className="text-lg font-light tracking-widest">EXHIBITION PREPARING</p>
