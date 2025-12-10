@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image"; // 👈 여기가 중요합니다! (lucide-react 아님)
 import { X } from "lucide-react"; // 닫기 버튼용 아이콘
 import { Button } from "@/components/ui/button";
 
@@ -72,12 +71,10 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
             <div className="relative aspect-[3/4] overflow-hidden bg-white mb-4 shadow-sm border border-gray-100">
               {/* 포스터 이미지 */}
               {item.poster_url ? (
-                <Image
+                <img
                   src={item.poster_url}
                   alt={item.title}
-                  fill
-                  className="object-contain group-hover:scale-100 transition duration-700 ease-out"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="w-full h-full object-contain group-hover:scale-100 transition duration-700 ease-out"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs">
