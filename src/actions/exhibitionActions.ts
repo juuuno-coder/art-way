@@ -43,6 +43,8 @@ export async function createExhibition(formData: FormData) {
     const finalImageUrl = publicUrlData.publicUrl;
 
     // 4. DB에 정보 저장 (Exhibitions 테이블)
+    const youtube_url = formData.get("youtube_url") as string; // 유튜브 URL 추가
+
     const { error: dbError } = await supabase.from("exhibitions").insert({
       title,
       artist: subtitle, // DB 컬럼명이 artist라면 이렇게 매핑 (subtitle -> artist)
@@ -51,7 +53,8 @@ export async function createExhibition(formData: FormData) {
       end_date,
       is_active: true, // 기본값 활성
       poster_url: finalImageUrl, // DB 컬럼명이 poster_url이라면 이렇게 매핑
-      is_main_slider, // 추가
+      is_main_slider,
+      youtube_url: youtube_url || null, // 값이 없으면 null로 저장
     });
 
     if (dbError) {

@@ -113,7 +113,8 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
           />
 
           {/* 모달 크기 확대: 전체 화면의 88% */}
-          <div className="bg-white w-[90%] md:w-[88%] max-h-[95vh] overflow-y-auto relative shadow-2xl animate-fade-in-up">
+          {/* PC에서는 모달 전체 스크롤을 막고(내부 오른쪽만 스크롤), 모바일에서는 전체 스크롤 허용 */}
+          <div className="bg-white w-[90%] md:w-[88%] h-[80vh] md:h-[90vh] max-h-[95vh] relative shadow-2xl animate-fade-in-up flex flex-col md:overflow-hidden overflow-y-auto">
             {/* 닫기 버튼 */}
             <button
               onClick={() => setSelectedExhibition(null)}
@@ -122,20 +123,20 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
               <X size={24} />
             </button>
 
-            <div className="flex flex-col md:flex-row min-h-[600px]">
-              {/* 1. 왼쪽: 포스터 이미지 (30%) */}
-              <div className="w-full md:w-[30%] bg-gray-50 p-8 flex items-start justify-center border-b md:border-b-0 md:border-r border-gray-100">
+            <div className="flex flex-col md:flex-row flex-1 h-full">
+              {/* 1. 왼쪽: 포스터 이미지 (30%) - PC에서 고정(스크롤 안됨), 중앙 정렬 */}
+              <div className="w-full md:w-[30%] bg-gray-50 p-8 flex items-center justify-center border-b md:border-b-0 md:border-r border-gray-100 shrink-0">
                 {selectedExhibition.poster_url && (
                   <img
                     src={selectedExhibition.poster_url}
                     alt={selectedExhibition.title}
-                    className="w-full h-auto object-contain shadow-sm"
+                    className="w-full max-h-[50vh] md:max-h-[80%] w-auto object-contain shadow-sm"
                   />
                 )}
               </div>
 
-              {/* 2. 오른쪽: 상세 내용 (70%) */}
-              <div className="w-full md:w-[70%] p-8 md:p-12 space-y-8 bg-white">
+              {/* 2. 오른쪽: 상세 내용 (70%) - PC에서만 독립 스크롤 */}
+              <div className="w-full md:w-[70%] p-8 md:p-12 space-y-8 bg-white md:overflow-y-auto h-full custom-scrollbar">
                 <div>
                   <p className="text-xs font-bold text-blue-600 tracking-widest uppercase mb-2">
                     Exhibition

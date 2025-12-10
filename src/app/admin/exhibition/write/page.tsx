@@ -80,7 +80,8 @@ export default function AdminExhibitionWrite() {
         </div>
 
         {/* 2. 날짜 및 옵션 */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+        {/* 2. 날짜 설정 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-bold mb-2">시작일</label>
             <input
@@ -97,7 +98,11 @@ export default function AdminExhibitionWrite() {
               className="w-full border-b border-gray-300 p-2"
             />
           </div>
-          <div className="flex items-center gap-2 pb-2">
+        </div>
+
+        {/* 3. 메인 슬라이더 옵션 (유튜브 배경) */}
+        <div className="bg-gray-50 p-4 rounded-lg flex flex-col md:flex-row gap-4 md:items-center border border-gray-200">
+          <div className="flex items-center gap-2 shrink-0">
             <input
               name="is_main_slider"
               type="checkbox"
@@ -110,6 +115,15 @@ export default function AdminExhibitionWrite() {
             >
               메인 슬라이더 노출
             </label>
+          </div>
+          
+          <div className="flex-1">
+             <input
+               name="youtube_url"
+               type="text"
+               placeholder="유튜브 영상 URL (메인 슬라이더 배경으로 사용시 입력)"
+               className="w-full bg-transparent border-b border-gray-300 p-2 text-sm focus:outline-none focus:border-black"
+             />
           </div>
         </div>
 

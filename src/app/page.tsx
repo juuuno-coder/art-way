@@ -45,7 +45,11 @@ export default async function HomePage() {
     return (match && match[2].length === 11) ? match[2] : null;
   };
 
-  const youtubeId = getYoutubeId(bannerData?.youtube_url);
+  // 우선순위: 1. 최신 메인 전시의 youtube_url -> 2. 기존 main_banner 설정
+  const latestExhibitionYoutube = slides.length > 0 ? slides[0].youtube_url : null;
+  const finalYoutubeUrl = latestExhibitionYoutube || bannerData?.youtube_url;
+
+  const youtubeId = getYoutubeId(finalYoutubeUrl);
   console.log("🎥 추출된 유튜브 ID:", youtubeId);
 
 
