@@ -67,8 +67,8 @@ export default async function MediaDetailPage({ params }: Props) {
               <Calendar size={14} />
               {/* 기사 게시일(published_date) 우선, 없으면 등록일(created_at) */}
               {post.published_date 
-                ? new Date(post.published_date).toLocaleDateString()
-                : new Date(post.created_at).toLocaleDateString()}
+                ? new Date(post.published_date).toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" })
+                : new Date(post.created_at).toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" })}
             </span>
           </div>
 

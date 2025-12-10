@@ -51,8 +51,8 @@ export default async function MediaPage() {
                         <div className="flex items-center gap-1 text-gray-400 text-sm shrink-0">
                           <span>
                             {item.published_date 
-                              ? new Date(item.published_date).toLocaleDateString()
-                              : new Date(item.created_at).toLocaleDateString()}
+                              ? new Date(item.published_date).toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" })
+                              : new Date(item.created_at).toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" })}
                           </span>
                         </div>
                       </div>

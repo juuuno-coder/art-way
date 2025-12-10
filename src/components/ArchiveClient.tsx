@@ -125,21 +125,11 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
               <X size={24} />
             </button>
 
-            <div className="grid grid-cols-1 md:grid-cols-5">
-              {/* 왼쪽: 포스터 이미지 - 2/5 */}
-              <div className="relative bg-white p-4 min-h-[500px] md:W-full md:col-span-2">
-                {selectedExhibition.poster_url && (
-                  <Image
-                    src={selectedExhibition.poster_url}
-                    alt="Poster"
-                    fill
-                    className="object-contain"
-                  />
-                )}
-              </div>
-
-              {/* 오른쪽: 상세 내용 - 3/5 */}
-              <div className="p-8 md:p-12 space-y-8 md:col-span-3">
+            <div className="flex flex-col md:flex-row gap-8 p-8 md:p-12">
+              {/* (기존 포스터 영역 제거함 - 사용자가 요청한 대로 상세에서는 제외) */}
+              
+              {/* 상세 내용 (전체 너비 사용) */}
+              <div className="flex-1 space-y-8">
                 <div>
                   <p className="text-xs font-bold text-blue-600 tracking-widest uppercase mb-2">
                     Exhibition
@@ -158,7 +148,7 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
 
                 {/* BlockNote 이미지 표시를 위한 스타일 개선 */}
                 <div
-                  className="text-sm text-gray-600 leading-loose text-justify max-h-[400px] overflow-y-auto pr-2 custom-scrollbar prose prose-sm max-w-none"
+                  className="text-sm text-gray-600 leading-loose text-justify max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar prose prose-sm max-w-none"
                   style={{
                     wordBreak: "break-word"
                   }}
@@ -168,12 +158,14 @@ export default function ArchiveClient({ initialData }: { initialData: any[] }) {
                   }}
                 />
 
-                <button
-                  onClick={() => setSelectedExhibition(null)}
-                  className="w-full border border-black py-3 text-xs tracking-widest hover:bg-black hover:text-white transition"
-                >
-                  CLOSE
-                </button>
+                <div className="flex justify-end">
+                   <button
+                    onClick={() => setSelectedExhibition(null)}
+                    className="border border-black px-12 py-3 text-xs tracking-widest hover:bg-black hover:text-white transition"
+                  >
+                    CLOSE
+                  </button>
+                </div>
               </div>
             </div>
           </div>
