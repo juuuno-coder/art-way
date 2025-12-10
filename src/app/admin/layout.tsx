@@ -17,6 +17,12 @@ export default function AdminLayout({
                         </Link>
                         <nav className="flex gap-6 text-sm font-medium text-gray-500">
                             <Link
+                                href="/admin"
+                                className="hover:text-black transition-colors"
+                            >
+                                대시보드
+                            </Link>
+                            <Link
                                 href="/admin/exhibition"
                                 className="hover:text-black transition-colors"
                             >

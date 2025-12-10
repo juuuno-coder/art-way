@@ -3,6 +3,7 @@ import { Noto_Serif_KR, Inter } from "next/font/google";
 import "./globals.css";
 // 👇 헤더 컴포넌트 경로 확인 (components/Header 인지 components/ui/Header 인지)
 import Header from "@/components/Header"; 
+import VisitorTracker from "@/components/VisitorTracker"; 
 
 const serif = Noto_Serif_KR({
   subsets: ["latin"],
@@ -24,6 +25,9 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${serif.variable} ${sans.variable}`}>
       <body className="font-sans text-gray-900 bg-white selection:bg-black selection:text-white">
+        
+        {/* 방문자 추적기 (관리자 통계용) */}
+        <VisitorTracker />
         
         {/* 헤더 */}
         <Header />
