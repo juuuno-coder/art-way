@@ -57,7 +57,7 @@ export default function Header() {
           <Link href="/archive" className="hover:text-black hover:opacity-100 transition-colors">전시기록</Link>
           <Link href="/media" className="hover:text-black hover:opacity-100 transition-colors">언론보도</Link>
           <Link href="/mall" className="hover:text-black hover:opacity-100 transition-colors">SHOP</Link>
-          <Link href="/contact" className="hover:text-black hover:opacity-100 transition-colors">찾아오시는길</Link>
+          <Link href="/contact" className="hover:text-black hover:opacity-100 transition-colors">문의하기</Link>
         </nav>
 
         {/* 모바일 메뉴 (색상 props 전달 필요할 수 있음) */}
