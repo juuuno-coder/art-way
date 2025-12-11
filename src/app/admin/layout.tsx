@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import LogoutButton from "@/components/LogoutButton";
 
 export default function AdminLayout({
     children,
@@ -43,7 +44,8 @@ export default function AdminLayout({
                             {/* 추가 메뉴 공간 */}
                         </nav>
                     </div>
-                    <div>
+                    <div className="flex items-center gap-2">
+                        <LogoutButton />
                         <Link href="/">
                             <Button variant="ghost" size="sm">
                                 나가기

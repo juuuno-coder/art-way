@@ -61,7 +61,7 @@ export default function Header() {
         </nav>
 
         {/* 모바일 메뉴 (색상 props 전달 필요할 수 있음) */}
-        <div className={isHome && !isScrolled ? "text-white" : "text-black"}>
+        <div className={`md:hidden ${isHome && !isScrolled ? "text-white" : "text-black"}`}>
            <MobileMenu />
         </div>
       </div>
