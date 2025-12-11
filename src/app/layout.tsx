@@ -5,6 +5,8 @@ import "./globals.css";
 import Header from "@/components/Header"; 
 import VisitorTracker from "@/components/VisitorTracker"; 
 
+import { getSiteSettings } from "@/actions/settingsActions";
+
 const serif = Noto_Serif_KR({
   subsets: ["latin"],
   weight: ["300", "400", "600"],
@@ -12,10 +14,24 @@ const serif = Noto_Serif_KR({
 });
 const sans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
-export const metadata: Metadata = {
-  title: "Artway Gallery",
-  description: "부산 동구 문화 예술 공간",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  
+  const title = "Artway Gallery";
+  const description = settings?.og_description || "부산 동구 문화 예술 공간";
+  const ogImage = settings?.og_image_url ? [settings.og_image_url] : [];
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: ogImage,
+      type: "website",
+    },
+  };
+}
 
 export default function RootLayout({
   children,

@@ -41,7 +41,12 @@ export default function AdminLayout({
                             >
                                 문의 관리
                             </Link>
-                            {/* 추가 메뉴 공간 */}
+                            <Link
+                                href="/admin/settings"
+                                className="hover:text-black transition-colors"
+                            >
+                                사이트 설정
+                            </Link>
                         </nav>
                     </div>
                     <div className="flex items-center gap-2">
