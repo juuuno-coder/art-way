@@ -68,7 +68,7 @@ export default async function AdminDashboardPage() {
               
               return (
                 <div key={stat.date} className="flex flex-col items-center justify-end flex-1 gap-2 group">
-                  <div className="relative w-full max-w-[40px] bg-gray-100 rounded-t-md hover:bg-blue-500 transition-colors duration-300" 
+                  <div className="relative w-full max-w-[40px] bg-black rounded-t-md hover:bg-gray-700 transition-colors duration-300"
                        style={{ height: `${heightPercent}%` }}>
                     {/* 툴팁 (호버시 숫자 표시) */}
                     <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
