@@ -45,12 +45,12 @@ export default function AdminLayout({
                         </nav>
                     </div>
                     <div className="flex items-center gap-2">
-                        <LogoutButton />
                         <Link href="/">
                             <Button variant="ghost" size="sm">
                                 나가기
                             </Button>
                         </Link>
+                        <LogoutButton />
                     </div>
                 </div>
             </div>
