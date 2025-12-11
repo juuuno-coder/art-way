@@ -67,8 +67,8 @@ export default async function AdminDashboardPage() {
               const heightPercent = Math.max((stat.count / maxVal) * 100, 5); // 최소높이 5%
               
               return (
-                <div key={stat.date} className="flex flex-col items-center justify-end flex-1 gap-2 group">
-                  <div className="relative w-full max-w-[40px] bg-blue-600 rounded-t-md hover:bg-blue-700 transition-colors duration-300"
+                <div key={stat.date} className="flex flex-col items-center justify-end flex-1 gap-2 group h-full">
+                  <div className="relative w-full max-w-[40px] bg-black rounded-t-md hover:bg-gray-700 transition-colors duration-300"
                        style={{ height: `${heightPercent}%` }}>
                     {/* 툴팁 (호버시 숫자 표시) */}
                     <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
@@ -88,14 +88,6 @@ export default async function AdminDashboardPage() {
              아직 집계된 방문자 데이터가 없습니다.
           </div>
         )}
-      </div>
-
-      {/* 디버깅용 데이터 출력 (확인 후 삭제 예정) */}
-      <div className="mt-8">
-        <p className="text-red-500 font-bold mb-2">데이터 디버깅 (문제가 해결되면 삭제할 예정입니다)</p>
-        <pre className="bg-gray-100 p-4 rounded text-xs overflow-auto h-40 border border-gray-300">
-            {JSON.stringify(stats.visitorStats, null, 2)}
-        </pre>
       </div>
 
     </div>
