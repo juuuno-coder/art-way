@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 
 // 설정 조회
 export async function getSiteSettings() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -35,7 +35,7 @@ export async function getSiteSettings() {
 
 // 설정 업데이트
 export async function updateSiteSettings(formData: FormData) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -45,10 +45,18 @@ export async function updateSiteSettings(formData: FormData) {
           return cookieStore.get(name)?.value;
         },
         set(name: string, value: string, options: any) {
-          cookieStore.set({ name, value, ...options });
+          try {
+            cookieStore.set({ name, value, ...options });
+          } catch (error) {
+            // Server Action에서 쿠키 설정 가능
+          }
         },
         remove(name: string, options: any) {
-          cookieStore.set({ name, value: "", ...options });
+          try {
+            cookieStore.set({ name, value: "", ...options });
+          } catch (error) {
+            // Server Action에서 쿠키 설정 가능
+          }
         },
       },
     }
