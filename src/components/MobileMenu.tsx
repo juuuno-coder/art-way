@@ -23,13 +23,13 @@ export default function MobileMenu() {
 
             {/* 오버레이 메뉴 */}
             {isOpen && (
-                <div className="fixed inset-0 z-[100] bg-white animate-fade-in flex flex-col gap-8">
+                <div className="fixed inset-0 z-[100] bg-white/90 backdrop-blur-sm animate-fade-in flex flex-col gap-8">
                     {/* 상단 닫기 버튼 */}
-                    <div className="h-16 px-6 flex items-center justify-between border-b border-gray-100">
+                    <div className="h-16 px-6 flex items-center justify-between">
                         <span className="font-serif font-bold text-lg"></span>
                         <button
                             onClick={closeMenu}
-                            className="p-2 -mr-2 text-gray-600 hover:text-black transition"
+                            className="p-2 -mr-2 text-gray-800 hover:text-black transition"
                             aria-label="메뉴 닫기"
                         >
                             <X size={28} />
@@ -37,21 +37,21 @@ export default function MobileMenu() {
                     </div>
 
                     {/* 메뉴 링크들 */}
-                    <nav className="flex-1 flex flex-col justify-center items-center bg-white/80 gap-8 text-xl font-serif font-medium text-gray-800">
-                        <Link href="/about" onClick={closeMenu} className="hover:text-black">
+                    <nav className="flex-1 flex flex-col justify-center items-center gap-10 text-2xl font-serif text-gray-900">
+                        <Link href="/about" onClick={closeMenu} className="hover:text-blue-600 transition-colors">
                             소개
                         </Link>
-                        <Link href="/archive" onClick={closeMenu} className="hover:text-black">
+                        <Link href="/archive" onClick={closeMenu} className="hover:text-blue-600 transition-colors">
                             전시기록
                         </Link>
-                        <Link href="/media" onClick={closeMenu} className="hover:text-black">
+                        <Link href="/media" onClick={closeMenu} className="hover:text-blue-600 transition-colors">
                             언론보도
                         </Link>
-                        <Link href="/mall" onClick={closeMenu} className="hover:text-black">
+                        <Link href="/mall" onClick={closeMenu} className="hover:text-blue-600 transition-colors">
                             SHOP
                         </Link>
-                        <Link href="/contact" onClick={closeMenu} className="hover:text-black">
-                            찾아오시는길
+                        <Link href="/contact" onClick={closeMenu} className="hover:text-blue-600 transition-colors">
+                            문의하기
                         </Link>
                     </nav>
 
